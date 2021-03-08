@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div class="container jumbotron" style="height:800px">
+    <br />
+
+    <form>
+        <div class="addQuestion">
+            <div class="row">
+                <div class="col-lg" -6>
+                    <h5 class="text-info"> Question</h5>
+                    <textarea id="Text" class="form-control" rows="4" cols="60" style="border-color:cadetblue"></textarea>
+                    <br />
+                    <span class="text-info">   Mulit-Answer : </span>
+
+                    <input id="IsSingleAnswer" type="checkbox" class="checkbox" />
+                    <span style="color:#e9ecef">Space</span>
+                    <button type="button" id="clearQustion" class="btn btn-danger btn-sm">Clear Question</button>
+                </div>
+
+                <div class="col-lg-6">
+                    <h5 class="text-info"> Answers</h5>
+                    <input id="txtAnswer" type="text" class="form-control" />
+                    <br /> <br />
+                    <span class="text-info">   Is Correct </span>
+                    <input id="chkCorrectAnswer" type="checkbox" />
+                    <span style="color:#e9ecef" i>Space</span>
+                    <input id="AddAnswer" type="button" value="Add Answer" class="btn btn-info btn-sm" />
+                    <span style="color:#e9ecef">Space</span>
+                    <button type="button" id="clearAnswer" class="btn btn-danger btn-sm">Clear Answers</button>
+
+                    <br />
+                    <div style="border: 1px solid cadetblue;border-radius:5px;padding:10px; margin:10px; " class="">
+                        <ul id="lstAnswers">
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <br /> <br /> <br /> <br /> <br /> <br />
+
+
+
+            <div class="text-center">
+                <button class="btn btn-info btn-lg" type="submit">Save</button>
+            </div>
+
+        </div>
+
+        <!--Eng Goda this is a Hidden Input To store Question Text-->
+        @Html.Hidden("txtHiddenQuestion");
+
+        <!--Hidden Input To store Answers Text-->
+        @Html.Hidden("txtHiddenAnswers")
+
+
+    </form>
+</div>
+
+@section scripts{
+    <script>
+        //$(function () {
+        //    jshdjksdhjhjhjsdkjs
+        //}
+
+        $(function () {
+            $('#AddAnswer').click(function (e) {
+                var newAnswer = $('#txtAnswer').val();
+                var isCorrectAnswer = $('#chkCorrectAnswer')[0].checked;
+                var isMultiChoice = $('#IsSingleAnswer')[0].checked;
+
+                var html = '<li>'
+                html += '<span>' + newAnswer + '</span>'
+                html += '<input  type="' + (isMultiChoice ? 'checkbox' : 'radio') + '"  ' + (isCorrectAnswer ? 'checked=checked' : '') + '  name="gender" />';
+                html += '</li>';
+                $('#lstAnswers').append(html);
+
+                // reset controls
+                $('#txtAnswer').val('');
+                $('#chkCorrectAnswer')[0].checked = false;
+            });
+
+            $('form').submit(function () {
+                var question = $('#Text').val();
+                var answers = '';
+                var trueAnswer = '';
+                var answerList = $('#lstAnswers li');
+
+                for (var i = 0; i < answerList.length; i++) {
+                    var newAnswer = $(answerList[i]).find('span').text();
+                    var isCorrectAnswer = $(answerList[i]).find('input')[0].checked;
+                    if (i != 0)
+                        answers += '  |  ';
+                    //Eng Goda This Line to Focus True Answer With Start ' # ' symbol
+                    answers += (isCorrectAnswer ? ' # ' : '') + newAnswer
+                    trueAnswer += isCorrectAnswer ? newAnswer+" , " : ''
+                }
+
+                $("#txtHiddenQuestion").val(question);
+                $('#txtHiddenAnswers').val(answers);
+                alert("Question : " + question + "?\n" + "Answers are :" + answers + "\nCorrect Answers :" + trueAnswer);
+                return true; // return false to cancel form action
+            });
+
+
+            $("#clearQustion").click(function () {
+
+                $('#Text').val('');
+
+            });
+            $("#clearAnswer").click(function () {
+
+                $('#lstAnswers').val('');
+
+            });
+
+           
+        });
+    </script>
+}

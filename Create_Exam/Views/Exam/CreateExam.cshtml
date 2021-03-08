@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class=" container jumbotron" style="height:800px">
+    <h2 style="text-align:center;color:cadetblue;height:50px" class="shadow">Create New Exam</h2>
+    <br />
+    <br/>
+    <form>
+        <div class="row">
+            <div class="col-lg-6">
+                <span class="text-info" style="font-size:20px">Exam Header</span>
+                <input type="text" class="form-control" id="EHeader" />
+            </div>
+            <div class="col-lg-6">
+                <span class="text-info" style="font-size:20px">Exam Duration / hours</span>
+                <input type="text" class="form-control" id="EDuration" />
+            </div>
+        </div>
+        <hr />
+        <br />
+        <h4 class="text-danger">
+            =>Select The exam questions
+        </h4>
+        <br/>
+        @foreach (var quest in Model)
+        {
+            <div class="question" questionId="@quest.ID">
+                <input type="checkbox" />
+                <span style="color:#e9ecef">space</span>
+                <span style="color:brown">@quest.Text</span>
+            </div>
+        }
+        <br /><br /><br />
+        <div class="text-center">
+            <button class="btn btn-primary text-center" type="submit" id="getIds">Submit</button>
+        </div>
+    </form>
+</div>
+@Html.Hidden("txtHiddenids")
+
+
+@section scripts{
+    <script>
+
+        $('form').submit(function () {
+            var ids = '';
+            var allQuestions = $('.question');
+            for (var i = 0; i < allQuestions.length; i++) {
+                var questionId = $(allQuestions[i]).attr('questionId');
+                var isSelected = $(allQuestions[i]).find('input')[0].checked;
+                if (!isSelected)
+                    continue;
+                if (ids != '')
+                    ids += ',';
+                ids += questionId;
+            }
+            $('#txtHiddenids').val(ids);
+            alert("Exam Name : " + $('#EHeader').val() + "\nExam Duration :" + $('#EDuration').val() + "\nExam Questions Ids :" + ids);
+            return true;
+
+            });
+
+
+
+
+    </script>
+
+}

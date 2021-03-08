@@ -1,0 +1,30 @@
+﻿@model Create_Exam.Models.Question
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<br/><br/>
+<div>
+   
+    <dl class="dl-horizontal">
+        <dt class="text-info">
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+
+        <dt class="text-info">
+            @Html.DisplayNameFor(model => model.IsSingleAnswer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSingleAnswer)
+        </dd>
+
+    </dl>
+</div>
+  <p class="btn btn-warning">  @Html.ActionLink("Back to Questions", "AllQuestions")</p>
+

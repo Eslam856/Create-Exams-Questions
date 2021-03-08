@@ -1,0 +1,88 @@
+﻿@model Create_Exam.Models.Exam
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="jumbotron" style="height:1000px">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Exam</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.ExamName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ExamName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ExamName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ExamHours, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ExamHours, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ExamHours, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.HiddenFor(model => model.examAnswers)
+                    </div>
+                </div>
+            </div>
+            <h4 class="text-danger">
+                =>Select The exam questions
+            </h4>
+            <br />
+            @foreach (var quest in ViewBag.questions)
+            {
+                <div class="question" questionId="@quest.ID">
+                    <input type="checkbox" />
+                    <span style="color:#e9ecef">space</span>
+                    <span style="color:brown">@quest.Text</span>
+                </div>
+            }
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@section scripts{
+    <script>
+
+        $('form').submit(function () {
+            var ids = '';
+            var allQuestions = $('.question');
+            for (var i = 0; i < allQuestions.length; i++) {
+                var questionId = $(allQuestions[i]).attr('questionId');
+                var isSelected = $(allQuestions[i]).find('input')[0].checked;
+                if (!isSelected)
+                    continue;
+                if (ids != '')
+                    ids += ',';
+                ids += questionId;
+            }
+            $('#examAnswers').val(ids);
+            alert("Exam Name : " + $('#EHeader').val() + "\nExam Duration :" + $('#EDuration').val() + "\nExam Questions Ids :" + ids);
+            return true;
+
+        });
+
+
+
+
+    </script>
+
+}

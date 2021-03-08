@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OnlineExaminationDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="QuestionID" Type="int" Nullable="false" />
+    <Property Name="IsTrueAnswer" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Exam">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExamName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ExamHours" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExamAnswer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExamID" Type="int" Nullable="false" />
+    <Property Name="AnswerID" Type="int" Nullable="false" />
+    <Property Name="InsertionTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExamQuestion">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionID" Type="int" Nullable="false" />
+    <Property Name="ExamID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsSingleAnswer" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Answer_Question">
+    <End Role="Question" Type="Self.Question" Multiplicity="1" />
+    <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExamAnswer_Answer">
+    <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+    <End Role="ExamAnswer" Type="Self.ExamAnswer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Answer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ExamAnswer">
+        <PropertyRef Name="AnswerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExamAnswer_Exam">
+    <End Role="Exam" Type="Self.Exam" Multiplicity="1" />
+    <End Role="ExamAnswer" Type="Self.ExamAnswer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Exam">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ExamAnswer">
+        <PropertyRef Name="ExamID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExamQuestion_Exam">
+    <End Role="Exam" Type="Self.Exam" Multiplicity="1" />
+    <End Role="ExamQuestion" Type="Self.ExamQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Exam">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ExamQuestion">
+        <PropertyRef Name="ExamID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExamQuestion_Question">
+    <End Role="Question" Type="Self.Question" Multiplicity="1" />
+    <End Role="ExamQuestion" Type="Self.ExamQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ExamQuestion">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OnlineExaminationDBModelStoreContainer">
+    <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Exam" EntityType="Self.Exam" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamAnswer" EntityType="Self.ExamAnswer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExamQuestion" EntityType="Self.ExamQuestion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Answer_Question" Association="Self.FK_Answer_Question">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="Answer" EntitySet="Answer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExamAnswer_Answer" Association="Self.FK_ExamAnswer_Answer">
+      <End Role="Answer" EntitySet="Answer" />
+      <End Role="ExamAnswer" EntitySet="ExamAnswer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExamAnswer_Exam" Association="Self.FK_ExamAnswer_Exam">
+      <End Role="Exam" EntitySet="Exam" />
+      <End Role="ExamAnswer" EntitySet="ExamAnswer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExamQuestion_Exam" Association="Self.FK_ExamQuestion_Exam">
+      <End Role="Exam" EntitySet="Exam" />
+      <End Role="ExamQuestion" EntitySet="ExamQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExamQuestion_Question" Association="Self.FK_ExamQuestion_Question">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="ExamQuestion" EntitySet="ExamQuestion" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

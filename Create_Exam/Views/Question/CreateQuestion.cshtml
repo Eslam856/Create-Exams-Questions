@@ -1,0 +1,142 @@
+﻿@model Create_Exam.Models.Question
+
+@{
+    ViewBag.Title = "CreateQuestion";
+}
+
+<div class="jumbotron" style="height:1000px">
+
+    @using (Html.BeginForm())
+    {
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal ">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                
+                <h5 class="text-info"> New Question</h5>
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        <span class="text-danger" style="font-weight:bold">   Mulit-Answer : </span>
+                        @Html.EditorFor(model => model.IsSingleAnswer)
+                        @Html.ValidationMessageFor(model => model.IsSingleAnswer, "", new { @class = "text-danger" })
+                        <span style="color:#e9ecef">Space</span>
+                        <input type="reset"  class="btn btn-danger btn-sm" value="Clear All">
+
+                    </div>
+                </div>
+
+                <br /><br />
+
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.HiddenFor(model => model.AnswerText)
+                    </div>
+                </div>
+            </div>
+
+            <!--Inputs Related With JavaScript -->
+            <div>
+                <h5 class="text-info"> Add Answers</h5>
+                <input id="txtAnswer" type="text" class="form-control" />
+                <br /> <br />
+                <span class="text-info" style="font-weight:bold">   Is Correct </span>
+                <input id="chkCorrectAnswer" type="checkbox" />
+                <span style="color:#e9ecef" i>Space</span>
+                <input id="AddAnswer" type="button" value="Add Answer" class="btn btn-info btn-sm" />
+                <span style="color:#e9ecef">Space</span>
+                <button type="button" id="clearAnswer" class="btn btn-danger btn-sm">Clear Answers</button>
+
+                <br /><br /><br /><br /><br />
+
+                <h5 class="text-info">  Answers</h5>
+                <div style="border: 1px solid cadetblue;border-radius:5px;padding:10px; margin:10px; " class="bg-white">
+                    <ul id="lstAnswers" style="list-style:upper-alpha">
+
+                    </ul>
+                </div>
+
+                <br /><br /><br />
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="  Create  " class="btn btn-success  " />
+                    <a href="~/Exam/CreateExam" style="color:white" class="btn btn-info"> New Exam</a>
+                </div>
+            </div>
+        </div>
+    }
+
+   
+</div>
+
+@section scripts{
+    <script>
+        //$(function () {
+        //    jshdjksdhjhjhjsdkjs
+        //}
+
+        $(function () {
+            $('#AddAnswer').click(function (e) {
+                var newAnswer = $('#txtAnswer').val();
+                var isCorrectAnswer = $('#chkCorrectAnswer')[0].checked;
+                var isMultiChoice = $('#IsSingleAnswer')[0].checked;
+
+                var html = '<li>'
+                html += '<input  type="' + (isMultiChoice ? 'checkbox' : 'radio') + '"  ' + (isCorrectAnswer ? 'checked=checked' : '') + '  name="Single" />   ';
+                html += '<span>' +newAnswer + '</span>'
+                html += '</li>';
+                $('#lstAnswers').append(html);
+
+                // reset controls
+                $('#txtAnswer').val('');
+                $('#chkCorrectAnswer')[0].checked = false;
+            });
+
+            $('form').submit(function () {
+                var question = $('#Text').val();
+                var answers = '';
+                var trueAnswer = '';
+                var answerList = $('#lstAnswers li');
+
+                for (var i = 0; i < answerList.length; i++) {
+                    var newAnswer = $(answerList[i]).find('span').text();
+                    var isCorrectAnswer = $(answerList[i]).find('input')[0].checked;
+                    if (i != 0)
+                        answers += '  |  ';
+                    //Eng Goda This Line to Focus True Answer With Start ' # ' symbol
+                    answers += (isCorrectAnswer ? ' # ' : '') + newAnswer
+                    trueAnswer += isCorrectAnswer ? newAnswer + " , " : ''
+                }
+
+                $('#AnswerText').val(answers); 
+                alert("Question : " + question + "?\n" + " Answers are : " + answers + "\nCorrect Answers Are :  " + trueAnswer);
+                return true; // return false to cancel form action
+            });
+
+
+            $("#clearQustion").click(function () {
+
+                $('#Text').empty();
+
+            });
+            $("#clearAnswer").click(function () {
+
+                $('#lstAnswers').empty();
+
+            });
+
+
+        });
+    </script>
+}

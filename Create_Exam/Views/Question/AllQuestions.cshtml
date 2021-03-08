@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Create_Exam.Models.Question>
+
+@{
+    ViewBag.Title = "All Questions";
+}
+
+
+<br />
+<a href="~/Exam/CreateExam" style="color:white" class="btn btn-primary">Create New Exam</a>
+<a href="~/Question/CreateQuestion" style="color:white" class="btn btn-primary">Create New Question</a>
+
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsSingleAnswer)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSingleAnswer)
+            </td>
+            <td>
+                <p class="btn btn-warning" >  @Html.ActionLink("Details", "Details", new { id = item.ID }) </p>
+                <p class="btn btn-danger"> @Html.ActionLink("Delete", "Delete", new { id = item.ID })</p>
+            </td>
+        </tr>
+    }
+
+</table>

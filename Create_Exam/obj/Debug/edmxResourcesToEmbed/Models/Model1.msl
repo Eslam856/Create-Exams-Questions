@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OnlineExaminationDBModelStoreContainer" CdmEntityContainer="OnlineExaminationDBEntities">
+    <EntitySetMapping Name="Answers">
+      <EntityTypeMapping TypeName="OnlineExaminationDBModel.Answer">
+        <MappingFragment StoreEntitySet="Answer">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+          <ScalarProperty Name="IsTrueAnswer" ColumnName="IsTrueAnswer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Exams">
+      <EntityTypeMapping TypeName="OnlineExaminationDBModel.Exam">
+        <MappingFragment StoreEntitySet="Exam">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ExamName" ColumnName="ExamName" />
+          <ScalarProperty Name="ExamHours" ColumnName="ExamHours" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamAnswers">
+      <EntityTypeMapping TypeName="OnlineExaminationDBModel.ExamAnswer">
+        <MappingFragment StoreEntitySet="ExamAnswer">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+          <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+          <ScalarProperty Name="InsertionTime" ColumnName="InsertionTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExamQuestions">
+      <EntityTypeMapping TypeName="OnlineExaminationDBModel.ExamQuestion">
+        <MappingFragment StoreEntitySet="ExamQuestion">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+          <ScalarProperty Name="ExamID" ColumnName="ExamID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions">
+      <EntityTypeMapping TypeName="OnlineExaminationDBModel.Question">
+        <MappingFragment StoreEntitySet="Question">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="IsSingleAnswer" ColumnName="IsSingleAnswer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
